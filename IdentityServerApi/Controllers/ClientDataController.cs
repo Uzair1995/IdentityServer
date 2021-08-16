@@ -1,12 +1,14 @@
 ﻿using IdentityServer.Repositories.Interfaces;
 using IdentityServer.Repositories.Models;
 using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServerApi.Utils.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace IdentityServerApi.Controllers
 {
+    [MultiplePoliciesAuthorizeAttribute("AOSupportUser;AOAdminUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientDataController : ControllerBase

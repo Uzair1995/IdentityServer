@@ -10,5 +10,13 @@ namespace IdentityServer.Repositories.Models
         public string Email { get; set; }
 
         public string EmailTemplate { get; set; }
+
+        public string FirmUserBelongsTo { get; set; }
+
+        public string CorrespondentCode { get; set; }
+
+        public string BoothId { get; set; }
+
+        public string Office { get; set; }
     }
 }

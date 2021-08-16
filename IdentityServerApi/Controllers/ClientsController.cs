@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServerApi.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using IdentityServer.Repositories.Interfaces;
 
 namespace IdentityServerApi.Controllers
 {
@@ -14,10 +15,12 @@ namespace IdentityServerApi.Controllers
     public class ClientsController : ControllerBase
     {
         private readonly ConfigurationDbContext configurationDbContext;
+        private readonly IClientDataRepository clientDataRepository;
 
-        public ClientsController(ConfigurationDbContext configurationDbContext)
+        public ClientsController(ConfigurationDbContext configurationDbContext, IClientDataRepository clientDataRepository)
         {
             this.configurationDbContext = configurationDbContext;
+            this.clientDataRepository = clientDataRepository;
         }
 
         [HttpPost]
@@ -38,6 +41,10 @@ namespace IdentityServerApi.Controllers
             var clientCore = addClient.ToCore();
             configurationDbContext.Add(clientCore);
             await configurationDbContext.SaveChangesAsync();
+
+            //Save extra client data
+            await clientDataRepository.InsertOrUpdateClientDataAsync(addClient.ToExtraClientDataCore());
+
             return Ok("Client successfully added.");
         }
 

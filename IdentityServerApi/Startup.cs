@@ -49,7 +49,15 @@ namespace IdentityServerApi
             {
                 x.AddPolicy("IdentityServerAdmin", s =>
                 {
-                    s.RequireScope(configuration["Identity:InternalPolicyScope"]);
+                    s.RequireScope(configuration["Identity:IdentityServerAdminPolicyScope"]);
+                });
+                x.AddPolicy("AOAdminUser", s =>
+                {
+                    s.RequireScope(configuration["Identity:AOSupportPolicyScope"]);
+                });
+                x.AddPolicy("AOSupportUser", s =>
+                {
+                    s.RequireScope(configuration["Identity:AOAdminPolicyScope"]);
                 });
             });
 
