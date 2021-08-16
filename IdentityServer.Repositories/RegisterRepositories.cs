@@ -1,4 +1,6 @@
 ﻿using IdentityServer.Repositories.Context;
+using IdentityServer.Repositories.Implementations;
+using IdentityServer.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +24,7 @@ namespace IdentityServer.Repositories
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            //services.AddTransient<IPersistedGrantsRepository, PersistedGrantsRepository>();
+            services.AddTransient<IClientDataRepository, ClientDataRepository>();
             return services;
         }
     }
