@@ -1,8 +1,8 @@
 # Identity Server 4 
 
-## Migrations
-Add-Migration InitialCreateConfigurationDbContext -c ConfigurationDbContext
-Add-Migration InitialCreateGrantDbContext -c PersistedGrantDbContext
+## Migrations Command
+(1) Add-Migration InitialCreateConfigurationDbContext -c ConfigurationDbContext
+(2) Add-Migration InitialCreateGrantDbContext -c CustomPersistedGrantDbContext
 
-Update-Database -c ConfigurationDbContext
-Update-Database -c PersistedGrantDbContext
+(3) Update-Database -context ConfigurationDbContext
+(4) update-database -context CustomPersistedGrantDbContext
