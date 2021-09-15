@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IdentityServer.Repositories.Migrations.CustomPersistedGrantDb
 {
     [DbContext(typeof(CustomPersistedGrantDbContext))]
-    [Migration("20210727132029_InitialCreateGrantDbContext")]
+    [Migration("20210915120123_InitialCreateGrantDbContext")]
     partial class InitialCreateGrantDbContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,10 +26,28 @@ namespace IdentityServer.Repositories.Migrations.CustomPersistedGrantDb
                     b.Property<string>("ClientId")
                         .HasColumnType("text");
 
+                    b.Property<string>("BoothId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CorrespondentCode")
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
+                    b.Property<string>("EmailPassword")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmailSmtpServerHost")
+                        .HasColumnType("text");
+
                     b.Property<string>("EmailTemplate")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirmUserBelongsTo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Office")
                         .HasColumnType("text");
 
                     b.HasKey("ClientId");

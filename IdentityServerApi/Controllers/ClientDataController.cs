@@ -5,10 +5,13 @@ using IdentityServerApi.Utils.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace IdentityServerApi.Controllers
 {
-    [MultiplePoliciesAuthorizeAttribute("AOSupportUser;AOAdminUser")]
+    //[MultiplePoliciesAuthorizeAttribute("AllAdmins;AllSupports")]
+    [Authorize(AuthenticationSchemes = "bearerForAnyone")]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientDataController : ControllerBase
@@ -25,6 +28,9 @@ namespace IdentityServerApi.Controllers
         [HttpPost("AddExtraClientData")]
         public async Task<IActionResult> AddExtraClientData([FromBody] ClientData clientData)
         {
+            if (!ReadAllowedScopesForAdminAndSupport())
+                return Unauthorized();
+
             var client = configurationDbContext.Clients.Where(x => x.ClientId.Equals(clientData.ClientId)).FirstOrDefault();
 
             if (client == null)
@@ -39,8 +45,17 @@ namespace IdentityServerApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClientDataByClientIdAsync(string clientId)
         {
+            if (!ReadAllowedScopesForAdminAndSupport())
+                return Unauthorized();
+
             var clientData = await clientDataRepository.GetClientDataUsingId(clientId);
             return Ok(clientData);
+        }
+
+        private bool ReadAllowedScopesForAdminAndSupport()
+        {
+            var claims = User.Claims.Where(x => x.Type.Equals("scope", StringComparison.InvariantCultureIgnoreCase)).Select(x => x.Value);
+            return claims.Any(x => x.Contains("admin", StringComparison.InvariantCultureIgnoreCase) || x.Contains("support", StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

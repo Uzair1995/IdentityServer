@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using IdentityServer.Repositories.Interfaces;
+﻿using IdentityServer.Repositories.Interfaces;
 using IdentityServer4.EntityFramework.DbContexts;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using IdentityServerApi.Models;
 using IdentityServer4.Models;
+using IdentityServerApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace IdentityServerApi.Controllers
 {

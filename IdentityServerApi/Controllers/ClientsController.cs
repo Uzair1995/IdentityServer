@@ -1,11 +1,11 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using IdentityServer.Repositories.Interfaces;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServerApi.Models;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using IdentityServer.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IdentityServerApi.Controllers
 {

@@ -13,7 +13,13 @@ namespace IdentityServer.Repositories.Migrations.CustomPersistedGrantDb
                 {
                     ClientId = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: true),
-                    EmailTemplate = table.Column<string>(type: "text", nullable: true)
+                    EmailTemplate = table.Column<string>(type: "text", nullable: true),
+                    FirmUserBelongsTo = table.Column<string>(type: "text", nullable: true),
+                    CorrespondentCode = table.Column<string>(type: "text", nullable: true),
+                    BoothId = table.Column<string>(type: "text", nullable: true),
+                    Office = table.Column<string>(type: "text", nullable: true),
+                    EmailSmtpServerHost = table.Column<string>(type: "text", nullable: true),
+                    EmailPassword = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

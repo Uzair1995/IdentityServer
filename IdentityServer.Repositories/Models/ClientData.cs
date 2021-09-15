@@ -18,5 +18,9 @@ namespace IdentityServer.Repositories.Models
         public string BoothId { get; set; }
 
         public string Office { get; set; }
+
+        public string EmailSmtpServerHost { get; set; }
+
+        public string EmailPassword { get; set; }
     }
 }

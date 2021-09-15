@@ -49,15 +49,27 @@ namespace IdentityServerApi
             {
                 x.AddPolicy("IdentityServerAdmin", s =>
                 {
-                    s.RequireScope(configuration["Identity:IdentityServerAdminPolicyScope"]);
+                    s.RequireScope(
+                        Configs.IdentityServer.ApiScopes
+                        .Select(x => x.Name)
+                        .Where(x => x.Contains("admin", System.StringComparison.InvariantCultureIgnoreCase))
+                        .ToArray());
                 });
-                x.AddPolicy("AOAdminUser", s =>
+                x.AddPolicy("AllAdmins", s =>
                 {
-                    s.RequireScope(configuration["Identity:AOSupportPolicyScope"]);
+                    s.RequireScope(
+                        Configs.Config.CompileApiScopesFromRegisteredResources()
+                        .Select(x => x.Name)
+                        .Where(x => x.Contains("admin", System.StringComparison.InvariantCultureIgnoreCase))
+                        .ToArray());
                 });
-                x.AddPolicy("AOSupportUser", s =>
+                x.AddPolicy("AllSupports", s =>
                 {
-                    s.RequireScope(configuration["Identity:AOAdminPolicyScope"]);
+                    s.RequireScope(
+                        Configs.Config.CompileApiScopesFromRegisteredResources()
+                        .Select(x => x.Name)
+                        .Where(x => x.Contains("support", System.StringComparison.InvariantCultureIgnoreCase))
+                        .ToArray());
                 });
             });
 
@@ -127,40 +139,36 @@ namespace IdentityServerApi
                 configureContext.Database.Migrate();
                 persistedGrantDbContext.Database.Migrate();
 
+
                 if (!configureContext.IdentityResources.Any())
                 {
-                    foreach (var resource in Config.IdentityResources)
-                    {
+                    foreach (var resource in Configs.Config.IdentityResources)
                         configureContext.IdentityResources.Add(resource.ToEntity());
-                    }
                     configureContext.SaveChanges();
                 }
-
                 if (!configureContext.ApiScopes.Any())
                 {
-                    foreach (var resource in Config.ApiScopes)
-                    {
+                    foreach (var resource in Configs.Config.CompileApiScopesFromRegisteredResources())
                         configureContext.ApiScopes.Add(resource.ToEntity());
-                    }
                     configureContext.SaveChanges();
                 }
-
                 if (!configureContext.ApiResources.Any())
                 {
-                    foreach (var resource in Config.ApiResources)
-                    {
+                    foreach (var resource in Configs.Config.CompileApiResourcesFromRegisteredResources())
                         configureContext.ApiResources.Add(resource.ToEntity());
-                    }
                     configureContext.SaveChanges();
                 }
-
                 if (!configureContext.Clients.Any())
                 {
-                    foreach (var client in Config.Clients)
-                    {
-                        configureContext.Clients.Add(client.ToEntity());
-                    }
+                    foreach (var client in Configs.Config.CompileClientsInfoFromRegisteredResources())
+                        configureContext.Clients.Add(client);
                     configureContext.SaveChanges();
+                }
+                if (!persistedGrantDbContext.ClientData.Any())
+                {
+                    foreach (var client in Configs.Config.CompileClientsDataFromRegisteredResources())
+                        persistedGrantDbContext.ClientData.Add(client);
+                    persistedGrantDbContext.SaveChanges();
                 }
             }
         }

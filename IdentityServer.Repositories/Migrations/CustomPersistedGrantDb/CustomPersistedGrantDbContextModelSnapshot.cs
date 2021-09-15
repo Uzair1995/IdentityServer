@@ -33,6 +33,12 @@ namespace IdentityServer.Repositories.Migrations.CustomPersistedGrantDb
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
+                    b.Property<string>("EmailPassword")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmailSmtpServerHost")
+                        .HasColumnType("text");
+
                     b.Property<string>("EmailTemplate")
                         .HasColumnType("text");
 
